@@ -16,7 +16,7 @@ class rk_tomcat::goss (
   $zulu_version,
 ) {
   $zulu_split = split($zulu_version, '-')
-  $zulu_version_goss = $zulu_split[1]
+  $zulu_version_goss = $zulu_split[0]
 
   wget::fetch { "download_goss":
     source      => "https://github.com/aelsabbahy/goss/releases/download/${version}/goss-linux-amd64",
