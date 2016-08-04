@@ -132,6 +132,7 @@ GOSS=$(which goss)
 if [ -n "$GOSS" ]; then
   $LOGGER "Testing configuration with Goss..."
   GOSS_OUT=/root/goss.out
+  export GOSS_FILE=/root/goss.json
   cd /root
   echo "### BEGIN GOSS - $(date)" > $GOSS_OUT
   $GOSS render | $GOSS validate >> $GOSS_OUT
