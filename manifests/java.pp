@@ -5,24 +5,25 @@ class rk_tomcat::java (
   $zulu_version,
 ) {
 
-  # building variables
-  $zulu_rpm = "zulu${zulu_version}-x86lx64.rpm"
-  # $zulu_rpm_path = "/root/rk_tomcat/files/${zulu_rpm}"
-  $zulu_rpm_path = "/root/${zulu_rpm}"
-
   # install Zulu
-  file { 'zulu_rpm':
-    path   => $zulu_rpm_path,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => "puppet:///modules/rk_tomcat/${zulu_rpm}",
-  } ->
-
-  exec { 'install_zulu_rpm':
+  exec { 'install_zulu_repo_key':
     path      => '/bin:/usr/bin:/sbin:/usr/sbin',
-    command   => "yum -y localinstall $zulu_rpm_path",
+    command   => 'rpm --import http://repos.azulsystems.com/RPM-GPG-KEY-azulsystems',
     logoutput => 'on_failure',
     unless    => "rpm -q $zulu_package",
+  } ->
+
+  yumrepo { 'zulu':
+    ensure   => 'present',
+    name     => 'zulu-$releasever - Azul Systems Inc., Zulu packages for $basearch',
+    baseurl  => 'http://repos.azulsystems.com/rhel/$releasever/$basearch',
+    gpgkey   => 'http://repos.azulsystems.com/RPM-GPG-KEY-azulsystems',
+    enabled  => 1,
+    gpgcheck => 1,
+    protect  => 1,
+  } ->
+
+  package { $zulu_package:
+    ensure => $zulu_version,
   }
 }
