@@ -15,7 +15,7 @@ class rk_tomcat::java (
 
   yumrepo { 'zulu':
     ensure   => 'present',
-    name     => 'zulu-$releasever - Azul Systems Inc., Zulu packages for $basearch',
+    descr    => 'zulu-$releasever - Azul Systems Inc., Zulu packages for $basearch',
     baseurl  => 'http://repos.azulsystems.com/rhel/$releasever/$basearch',
     gpgkey   => 'http://repos.azulsystems.com/RPM-GPG-KEY-azulsystems',
     enabled  => 1,
