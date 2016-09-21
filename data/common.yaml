@@ -20,7 +20,7 @@ rk_tomcat::kinesis::agent_cfg: /etc/aws-kinesis/agent.json
 rk_tomcat::kinesis::agent_pkg: aws-kinesis-agent
 rk_tomcat::kinesis::agent_svc: aws-kinesis-agent
 rk_tomcat::kinesis::flows:
-  - 
+  -
 rk_tomcat::limits::nofile: 65536
 rk_tomcat::rsyslog::deploy::catalina_home: "%{alias('rk_tomcat::tomcat::catalina_home')}"
 rk_tomcat::tomcat::tomcat_instance: default
@@ -30,7 +30,7 @@ rk_tomcat::tomcat::tomcat_svc: tomcat7
 rk_tomcat::tomcat::tomcat_user: tomcat
 rk_tomcat::tomcat::tomcat_group: tomcat
 rk_tomcat::tomcat::tomcat_jars_context_skip:
-  - "%{hiera('rk_tomcat::tomcat::postgres_driver')}.jar"
+  - "*"
 
 # New Relic
 rk_tomcat::newrelic::catalina_home: "%{alias('rk_tomcat::tomcat::catalina_home')}"
