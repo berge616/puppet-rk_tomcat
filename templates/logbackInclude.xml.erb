@@ -52,29 +52,17 @@
       </encoder>
    </appender>
 
-   <!-- Sometimes we might run code without an application context, i.e. unit tests, or if someone forgets to setup -->
-   <if condition='property("appName").contains("default")'>
-      <then>
-         <property name="appenderRef" value="STDOUT" />
-      </then>
-      <else>
-         <property name="appenderRef" value="FILE" />
-
-         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>${logFileDir}/logback.${appName}.log</file>
-            <append>true</append>
-            <encoder>
-               <pattern>${filePattern}</pattern>
-            </encoder>
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-               <fileNamePattern>${logFileDir}/logback.${appName}.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
-               <cleanHistoryOnStart>true</cleanHistoryOnStart>
-               <maxHistory>24</maxHistory>
-            </rollingPolicy>
-         </appender>
-
-      </else>
-   </if>
+   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${logFileDir}/logback.${appName}.log</file>
+      <encoder>
+         <pattern>${filePattern}</pattern>
+      </encoder>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${logFileDir}/logback.${appName}.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
+         <cleanHistoryOnStart>true</cleanHistoryOnStart>
+         <maxHistory>24</maxHistory>
+      </rollingPolicy>
+   </appender>
 
    <appender name="NEWRELIC" class="fitnesskeeper.core.logging.NewRelicAppender">
        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -88,20 +76,12 @@
        </filter>
    </appender>
 
-   <appender name="ANALYTICS_FILE" class="com.logpig.mweagle.rolling.S3RollingFileAppender">
+   <appender name="ANALYTICS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <file>${logFileDir}/analytics-logback/${appName}_events.log</file>
       <encoder>
          <pattern>%msg%n</pattern>
       </encoder>
-
-      <%# TODO: Remove these keys when we switch to use IAM roles after AWS migration -%>
-      <accessKey><%= @logback_access_key %></accessKey>
-      <secretKey><%= @logback_secret_key %></secretKey>
-
-      <bucketName>rk-etl-data</bucketName>
-      <bucketDir>analytics-logback/${s3DirPrefix}/${appName}</bucketDir>
-
-      <rollingPolicy class="com.logpig.mweagle.rolling.S3TimeBasedRollingPolicy">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
          <fileNamePattern>${logFileDir}/analytics-logback/${appName}_events.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
          <maxHistory>24</maxHistory>
       </rollingPolicy>
@@ -152,12 +132,23 @@
        </layout>
    </appender>
 
+
+   <!-- Sometimes we might run code without an application context, i.e. unit tests, or if someone forgets to setup -->
+   <if condition='property("appName").contains("default")'>
+      <then>
+         <property name="appLogAppenderRef" value="STDOUT" />
+      </then>
+      <else>
+         <property name="appLogAppenderRef" value="FILE" />
+      </else>
+   </if>
+
    <!--********************************************************************************************-->
    <!-- Unless otherwise specified all loggers will use the root logger level                      -->
    <!--********************************************************************************************-->
 
    <root level="INFO">
-      <appender-ref ref="${appenderRef}" />
+      <appender-ref ref="${appLogAppenderRef}" />
 
 <%- if @tier != "loadtest" -%>
       <appender-ref ref="APPLOGS_LOGENTRIES" />
