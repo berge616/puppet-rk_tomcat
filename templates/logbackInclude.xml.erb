@@ -86,6 +86,17 @@
       </rollingPolicy>
    </appender>
 
+   <appender name="ANALYTICS_ENGINEERING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${logFileDir}/analytics-logback/engineering/${appName}_events_engineering.log</file>
+      <encoder>
+         <pattern>%msg%n</pattern>
+      </encoder>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${logFileDir}/analytics-logback/engineering/${appName}_events_engineering.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
+         <maxHistory>24</maxHistory>
+      </rollingPolicy>
+   </appender>
+
    <appender name="ANALYTICS_LOGENTRIES" class="com.logentries.logback.LogentriesAppender">
        <Debug>False</Debug>
        <Token><%= @logentries_analytics_token %></Token>
@@ -177,6 +188,8 @@
    <!-- Analytcis logging                                                                          -->
    <!--********************************************************************************************-->
 
+   <!-- Note that additivity is set to false here -->
+   <!-- this is important because it stops analytics logs from going to appenders in the root logger -->
    <logger name="analytics" additivity="false">
       <level value="INFO"/>
 
@@ -190,11 +203,16 @@
    </logger>
 
 <%- if @tier == "production" -%>
-   <logger name="trace-analytics" additivity="false">
+   <logger name="analytics-trace" additivity="false">
       <level value="TRACE"/>
       <appender-ref ref="ANALYTICS_LOGENTRIES" />
    </logger>
 <%- end -%>
+
+  <logger name="analytics-engineering" additivity="false">
+      <level value="INFO"/>
+      <appender-ref ref="ANALYTICS_ENGINEERING_FILE" />
+  </logger>
 
    <!-- this thing gets noisy because we override a class in the nevado JMS lib which has logging -->
    <logger name="runkeeper.jms.connector.AmazonAwsSQSConnector" level="OFF"/>
