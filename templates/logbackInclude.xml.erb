@@ -190,8 +190,7 @@
 
    <!-- Note that additivity is set to false here -->
    <!-- this is important because it stops analytics logs from going to appenders in the root logger -->
-   <logger name="analytics" additivity="false">
-      <level value="INFO"/>
+   <logger name="analytics" additivity="false" level="INFO">
 
 <%- if @tier != "loadtest" -%>
       <appender-ref ref="ANALYTICS_FILE" />
@@ -203,14 +202,12 @@
    </logger>
 
 <%- if @tier == "production" -%>
-   <logger name="analytics-trace" additivity="false">
-      <level value="TRACE"/>
+   <logger name="analytics-trace" additivity="false" level="TRACE">
       <appender-ref ref="ANALYTICS_LOGENTRIES" />
    </logger>
 <%- end -%>
 
-  <logger name="analytics-engineering" additivity="false">
-      <level value="INFO"/>
+  <logger name="analytics-engineering" additivity="false" level="INFO">
       <appender-ref ref="ANALYTICS_ENGINEERING_FILE" />
   </logger>
 
