@@ -27,7 +27,11 @@ describe 'rk_tomcat', :type => :class do
     it { should contain_class('wget')}
     it { should contain_class('rk_tomcat')}
     it { should contain_class('rk_tomcat::fonts')}
+    it { should contain_class('rk_tomcat::goss')}
     it { should contain_class('rk_tomcat::java')}
+    it { should contain_class('rk_tomcat::limits')}
+    it { should contain_class('rk_tomcat::newrelic')}
+    it { should contain_class('rk_tomcat::newrelic::provision')}
   end
 end
 
@@ -43,5 +47,10 @@ describe 'rk_tomcat', :type => :class do
     it { should contain_class('rk_tomcat')}
     it { should contain_class('rk_tomcat::deploy')}
     it { should contain_class('rk_tomcat::tomcat')}
+    it { should contain_class('rk_tomcat::auth')}
+    it { should contain_class('rk_tomcat::kinesis')}
+    it { should contain_class('rk_tomcat::newrelic::deploy')}
+    it { should contain_class('rk_tomcat::rsyslog')}
+    it { should contain_class('rk_tomcat::rsyslog::deploy')}
   end
 end

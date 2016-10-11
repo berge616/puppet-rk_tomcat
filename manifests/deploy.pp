@@ -145,4 +145,6 @@ class rk_tomcat::deploy (
   class { 'rk_tomcat::rsyslog::deploy':
     application_tag => $log_identifier
   }
+
+  class { 'rk_tomcat::auth': }
 }
