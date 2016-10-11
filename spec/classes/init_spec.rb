@@ -43,5 +43,9 @@ describe 'rk_tomcat', :type => :class do
     it { should contain_class('rk_tomcat')}
     it { should contain_class('rk_tomcat::deploy')}
     it { should contain_class('rk_tomcat::tomcat')}
+    it { should contain_class('rk_tomcat::auth')}
+    it { should contain_class('rk_tomcat::kinesis')}
+    it { should contain_class('rk_tomcat::newrelic::deploy')}
+    it { should contain_class('rk_tomcat::rsyslog::deploy')}
   end
 end
