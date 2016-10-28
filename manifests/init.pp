@@ -63,12 +63,4 @@ class rk_tomcat (
 
   # common dependencies
   class { '::wget': }
-  # Adding a hosts entry to remidiate
-  # https://www.dynstatus.com/incidents/nlr4yrr162t8
-  host { 'fitnesskeeper.cloudant.com':
-    ensure  => present,
-    name    => 'fitnesskeeper.cloudant.com',
-    ip      => '75.126.91.242',
-    comment => 'DDOS_workaround_shuff_2016102'
-  }
 }
