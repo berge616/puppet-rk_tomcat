@@ -63,5 +63,5 @@ class rk_tomcat (
 
   # common dependencies
   class { '::wget': }
-  class { '::threatstack': }
+  class { 'rk_tomcat::threatstack': }
 }
