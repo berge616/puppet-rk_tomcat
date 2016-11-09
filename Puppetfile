@@ -10,9 +10,9 @@ mod 'ripienaar-module_data',
   :git => 'https://github.com/ripienaar/puppet-module-data.git',
   :ref => '324e79829b29734bd711a991baadb27ae5331642'
 
-mod 'threatstack',
+mod 'threatstack-threatstack',
   :git => 'https://github.com/tfhartmann/threatstack-puppet.git',
-  :branch => 'tfhartmann/wget'
+  :ref => 'tfhartmann/wget'
 
 # use dependencies defined in Modulefile
 # modulefile
