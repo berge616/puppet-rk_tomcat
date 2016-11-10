@@ -11,8 +11,7 @@ mod 'ripienaar-module_data',
   :ref => '324e79829b29734bd711a991baadb27ae5331642'
 
 mod 'threatstack-threatstack',
-  :git => 'https://github.com/threatstack/threatstack-puppet.git',
-  :ref => 'puppet4'
+  :git => 'https://github.com/threatstack/threatstack-puppet.git'
 
 # use dependencies defined in Modulefile
 # modulefile
