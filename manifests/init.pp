@@ -59,13 +59,9 @@ class rk_tomcat (
     class { 'rk_tomcat::deploy':
       require => Class[rk_tomcat::tomcat],
     }
-    file_line { '/etc/rc.d/rc.local':
-      path => '/etc/rc.d/rc.local',
-      line => "/opt/threatstack/bin/cloudsight setup --deploy-key=${::rk_tomcat::threatstack::deploy_key} --hostname=${::fqdn}",
-    } #/opt/threatstack/bin/cloudsight setup --deploy-key=${deploy_key} --hostname=${::fqnd}
+    class { 'rk_tomcat::threatstack': }
   }
 
   # common dependencies
   class { '::wget': }
-  class { 'rk_tomcat::threatstack': }
 }
