@@ -5,7 +5,8 @@ class rk_tomcat::threatstack (
 ){
   class { '::threatstack':
     deploy_key      => $deploy_key,
-    configure_agent => $configure_agent,
+    configure_agent => false,
+    #configure_agent => $configure_agent,
   }
   file_line { '/etc/rc.d/rc.local':
     path => '/etc/rc.d/rc.local',
