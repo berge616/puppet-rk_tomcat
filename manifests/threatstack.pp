@@ -3,13 +3,18 @@ class rk_tomcat::threatstack (
     $deploy_key,
     $configure_agent,
 ){
+  $threatstack_template = @(END)
+runcmd:
+ - [ "/opt/threatstack/bin/cloudsight", "setup", "--deploy-key=<%= $deploy_key -%>" ]
+END
+
   class { '::threatstack':
     deploy_key      => $deploy_key,
     configure_agent => false,
     #configure_agent => $configure_agent,
   }
-  file_line { '/etc/rc.d/rc.local':
-    path => '/etc/rc.d/rc.local',
-    line => "/opt/threatstack/bin/cloudsight setup --deploy-key=${deploy_key} --hostname=$(/usr/local/bin/facter fqdn)",
-  } #/opt/threatstack/bin/cloudsight setup --deploy-key=${deploy_key} --hostname=${::fqnd}
+  file { '/etc/cloud/cloud.cfg.d/99_threatstack.cfg':
+    ensure  => file,
+    content => inline_epp($threatstack_template, {'deploy_key' => $deploy_key}),
+  }
 }
