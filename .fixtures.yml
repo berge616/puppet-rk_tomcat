@@ -15,7 +15,7 @@ fixtures:
        ref: "1.4.1"
     threatstack:
        repo: "threatstack/threatstack"
-       ref: "1.5.3"
+       ref: "1.5.4"
 
   symlinks:
     rk_tomcat: "#{source_dir}"
