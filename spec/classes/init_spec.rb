@@ -18,10 +18,11 @@ end
 
 describe 'rk_tomcat', :type => :class do
   context 'with parameter mode set to "provision"' do
+    let(:facts) { {:osfamily => 'Amazon'} }
     let (:params) do
       {
         :mode  => 'provision',
-        :stack => 'rk-prod-app'
+        :stack => 'rk-prod-app',
       }
     end
     it { should contain_class('wget')}
@@ -37,6 +38,7 @@ end
 
 describe 'rk_tomcat', :type => :class do
   context 'with parameter mode set to "deploy"' do
+    let(:facts) { {:osfamily => 'Amazon'} }
     let (:params) do
       {
         :mode  => 'deploy',
@@ -44,6 +46,10 @@ describe 'rk_tomcat', :type => :class do
       }
     end
     it { should contain_class('wget')}
+    it { should contain_class('threatstack').with(
+      'deploy_key'      => 'd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yAA',
+      )
+    }
     it { should contain_class('rk_tomcat')}
     it { should contain_class('rk_tomcat::deploy')}
     it { should contain_class('rk_tomcat::tomcat')}

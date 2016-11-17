@@ -62,3 +62,6 @@ rk_tomcat::fonts::packages:
   - cjkuni-ukai-fonts
   - cjkuni-uming-fonts
   - wqy-zenhei-fonts
+
+# threatstack
+rk_tomcat::threatstack::deploy_key: d3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yAA

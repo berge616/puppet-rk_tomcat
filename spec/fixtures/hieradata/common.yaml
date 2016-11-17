@@ -65,3 +65,6 @@ rk_tomcat::fonts::packages:
 
 rk_tomcat::rsyslog::datahub_host: localhost
 rk_tomcat::rsyslog::datahub_port: 1234
+
+# threatstack
+rk_tomcat::threatstack::deploy_key: d3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yAA

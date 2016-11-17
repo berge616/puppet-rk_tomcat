@@ -59,6 +59,7 @@ class rk_tomcat (
     class { 'rk_tomcat::deploy':
       require => Class[rk_tomcat::tomcat],
     }
+    class { 'rk_tomcat::threatstack': }
   }
 
   # common dependencies
