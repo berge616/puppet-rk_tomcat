@@ -76,13 +76,14 @@ cd rk_tomcat
 
 $LOGGER "Configuring RubyGems..."
 yum -y install ruby23-devel glibc-devel gcc
+yum -y remove ruby20
 cat > /root/.gemrc << 'GEMRC'
 ---
 install: --nodocument --bindir /usr/local/bin
 GEMRC
 
 $LOGGER "Installing Bundler..."
-gem install io-console bundler
+gem install bundler
 
 $LOGGER "Installing Puppet dependencies..."
 export PUPPET_MODULE_DIR='/etc/puppetlabs/code/modules'
