@@ -8,7 +8,7 @@ end
 
 gem 'puppetlabs_spec_helper', '>= 0.8.2'
 gem 'puppet-lint', '>= 1.0.0'
-gem 'augeas', '>= 0.6.4'
+gem 'ruby-augeas', '>= 0.5'
 gem 'facter', '>= 1.7.0'
 gem 'librarian-puppet', '~> 2.2'
 gem 'deep_merge', '~> 1'
