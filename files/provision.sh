@@ -87,7 +87,7 @@ gem install bundler
 
 $LOGGER "Installing Puppet dependencies..."
 export PUPPET_MODULE_DIR='/etc/puppetlabs/code/modules'
-yum -y install augeas augeas-devel
+yum -y install augeas augeas-devel libxml2-devel
 
 $LOGGER "Installing other gem dependencies..."
 BUNDLE=$(which bundle 2>/dev/null || echo '/usr/local/bin/bundle')
