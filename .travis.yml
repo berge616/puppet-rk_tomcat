@@ -20,3 +20,5 @@ addons:
   apt:
     packages:
       - libaugeas-dev
+      - libxml2-dev
+      - pkg-config
