@@ -15,4 +15,5 @@ gem 'deep_merge', '~> 1'
 
 group :development, :test do
   gem 'dotenv', '~> 2.0'
+  gem 'rake', '~> 10.4'
 end
