@@ -60,6 +60,9 @@ cat > $PGPASS_FILE <<PGPASS
 PGPASS
 chmod 0600 ${PGPASS_FILE}
 
+# TODO: INSTALL FLYWAY COMMAND CLIENT
+
+
 $LOGGER "Removing semaphore..."
 $AWS s3 rm "s3://rk-devops-${REGION}/jenkins/semaphores/${INSTANCE_ID}" 2>/dev/null || true
 
