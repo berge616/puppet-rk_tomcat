@@ -60,8 +60,31 @@ cat > $PGPASS_FILE <<PGPASS
 PGPASS
 chmod 0600 ${PGPASS_FILE}
 
-# TODO: INSTALL FLYWAY COMMAND CLIENT
+# Install FlywayDB command-line client with bundled JRE
+FLYWAY_VERSION=4.2.0
+FLYWAY_PACKAGE=flyway-commandline-${FLYWAY_VERSION}-linux-x64.tar.gz
+FLYWAY_PACKAGE_URI=https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/${FLYWAY_PACKAGE}
+FLYWAY_INSTALLDIR=/opt/flyway-${FLYWAY_VERSION}
+FLYWAY_HOME=/opt/flyway
 
+pushd /tmp &&\
+  curl -O -L $FLYWAY_PACKAGE_URI &&\
+  cd /opt &&\
+  tar zxf /tmp/${FLYWAY_PACKAGE} &&\
+  ln -s $FLYWAY_INSTALLDIR $FLYWAY_HOME &&\
+  chmod +x ${FLYWAY_HOME}/flyway
+
+if [ ! -x "${FLYWAY_HOME}/flyway" ]; then
+  $LOGGER "Unable to install FlywayDB, exiting."
+  exit 1
+fi
+
+# Add FlywayDB client to path
+cat > /etc/profile.d/flyway.sh <<FLYWAY_SH
+# Initialization script for bash and sh
+
+export PATH="$PATH:${FLYWAY_HOME}"
+FLYWAY_SH
 
 $LOGGER "Removing semaphore..."
 $AWS s3 rm "s3://rk-devops-${REGION}/jenkins/semaphores/${INSTANCE_ID}" 2>/dev/null || true
