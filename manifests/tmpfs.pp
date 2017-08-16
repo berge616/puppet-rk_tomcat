@@ -16,7 +16,7 @@ class rk_tomcat::tmpfs(
 
   mounttab { $mountpoint:
     ensure   => present,
-    provider => 'augeas'
+    provider => 'augeas',
     fstype   => 'tmpfs',
     device   => 'tmpfs',
     dump     => 0,
