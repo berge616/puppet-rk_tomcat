@@ -15,12 +15,13 @@ class rk_tomcat::tmpfs(
   } ->
 
   mounttab { $mountpoint:
-    ensure  => present,
-    fstype  => 'tmpfs',
-    device  => 'tmpfs',
-    dump    => 0,
-    pass    => 2,
-    options => [
+    ensure   => present,
+    provider => 'augeas'
+    fstype   => 'tmpfs',
+    device   => 'tmpfs',
+    dump     => 0,
+    pass     => 2,
+    options  => [
       "size=${ramdisk_size}",
     ]
   } ->

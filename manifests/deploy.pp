@@ -17,6 +17,7 @@ class rk_tomcat::deploy (
   $s3_path,
   $stack,
   $staging_instance,
+  $tmpdir,
   $tomcat_svc,
   $warname,
 ) {
