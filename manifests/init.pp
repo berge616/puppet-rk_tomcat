@@ -51,6 +51,10 @@ class rk_tomcat (
     class { 'rk_tomcat::java':
       before => Class[rk_tomcat::tomcat],
     }
+
+    class { 'rk_tomcat::tmpfs':
+      before => Class[rk_tomcat::tomcat],
+    }
   }
 
   class { 'rk_tomcat::tomcat': }
