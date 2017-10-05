@@ -41,14 +41,6 @@ if [ ! -x "$PSQL" ]; then
   exit 1
 fi
 
-# Check that psql command line client is available, fail if not
-FLYWAY=$(which flyway)
-
-if [ ! -x "FLYWAY" ]; then
-$LOGGER 'Unable to find flyway executable, exiting!'
-exit 1
-fi
-
 DB_USER=<%= checkEnv('LEEROY_DB_USER') %>
 DB_NAME=<%= checkEnv('LEEROY_DB_NAME') %>
 DB_HOST=<%= getRDSInstanceEndpoint(checkEnv('LEEROY_DB_HOST')) %>
@@ -65,24 +57,61 @@ $AWS s3 cp "s3://rk-devops-${REGION}/jenkins/fixtures/sql/${DB_NAME}.sql" $DB_FI
 # run SQL file against database
 PGPASSWORD="$DB_PASSWORD" $PSQL -h $DB_HOST -U $DB_USER -f $DB_FILE -d postgres > $DB_LOG
 
-# retrieve flyway database scripts from S3
-$AWS s3 cp "s3://rk-devops-${REGION}/jenkins/fixtures/sql/datamart-<%= checkEnv('LEEROY_BRANCH') %>.tar.gz" $DB_TARBALL
-tar zxf $DB_TARBALL
-cd fixtures
+# Check that psql command line client is available, fail if not
+FLYWAY=$(which flyway)
 
-# create flyway config file
-cat > flyway.conf <<"FLYWAY_CONF"
-flyway.url=jdbc:postgresql://${DB_HOST}/datamart
+if [ ! -x "FLYWAY" ]; then
+  $LOGGER 'Unable to find flyway executable, exiting!'
+exit 1
+fi
+
+# retrieve flyway database scripts from S3
+$AWS s3 cp "s3://rk-devops-${REGION}/jenkins/fixtures/sql/flyway-<%= checkEnv('LEEROY_BRANCH') %>.tar.gz" $DB_TARBALL
+
+if [ ! -r "$DB_TARBALL" ]; then
+  $LOGGER 'Unable to download FlywayDB fixture, exiting!'
+  exit 1
+fi
+
+tar zxf $DB_TARBALL
+pushd fixtures/core/database
+
+echo "" >> "../../../${DB_LOG}"
+echo "$(date -R) beginning FlywayDB run" >> "../../../${DB_LOG}"
+
+for db_name in "$(ls)"; do
+  echo "$(date -R) checking ${db_name}" >> "../../../${DB_LOG}"
+
+  if [ -d "${db_name}" ]; then
+    flyway_conf="flyway-${db_name}-dev.conf"
+
+    if [ -r "${db_name}/${flyway_conf}" ]; then
+      echo "$(date -R) FlywayDB conf found, proceeding" >> "../../../${DB_LOG}"
+      cd $db_name
+
+      # create flyway conf file
+      echo "$(date -R) writing ${flyway_conf}" >> "../../../${DB_LOG}"
+      cat > $flyway_conf <<"FLYWAY_CONF"
+flyway.url=jdbc:postgresql://${DB_HOST}/${db_name}
 flyway.user=$DB_USER
 flyway.password=$DB_PASSWORD
 flyway.locations=filesystem:.
-flyway.placeholders.appUser=$DB_APP_USER # TODO: Pass in app user from leeroy
+flyway.placeholders.appUser=$DB_APP_USER
 flyway.placeholders.etlUser=$DB_APP_USER
 FLYWAY_CONF
 
-$FLYWAY clean >> $DB_LOG
+      for flyway_cmd in "clean" "migrate"; do
+        echo "$(date -R) running flyway ${flyway_cmd}" >> "../../../${DB_LOG}"
+        $FLYWAY -configFile=${flyway_conf} $flyway_cmd >> "../../../${DB_LOG}"
+      done
 
-$FLYWAY migrate >> $DB_LOG
+      echo "$(date -R) finished processing ${db_name}" >> "../../../${DB_LOG}"
+
+    fi
+  fi
+done
+
+popd
 
 # copy log to S3
 $AWS s3 cp $DB_LOG "s3://rk-devops-${REGION}/jenkins/logs/${DB_LOG}"
