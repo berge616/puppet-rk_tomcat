@@ -2,6 +2,7 @@
 .records
 .state
 .tmp/
+vendor/
 modules/
 artifacts/
 data/secrets.yaml

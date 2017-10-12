@@ -60,6 +60,10 @@ class rk_tomcat (
       require => Class[rk_tomcat::tomcat],
     }
     class { 'rk_tomcat::threatstack': }
+
+    class { 'rk_tomcat::goss::deploy':
+      require => Class[rk_tomcat::deploy],
+    }
   }
 
   # common dependencies
