@@ -1,7 +1,6 @@
 # rk_tomcat::goss::deploy
 
-class rk_tomcat::goss::deploy 
-{
+class rk_tomcat::goss::deploy {
   file { '/root/goss_deploy.json':
     ensure  => 'present',
     owner   => 'root',
