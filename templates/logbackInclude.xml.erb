@@ -169,13 +169,10 @@
        <filter class="fitnesskeeper.core.logging.InternalUsersFilter" />
 <%- end -%>
 
-       <appName>LogDNA-Logback-Test</appName>
+       <appName>${appName}</appName>
        <ingestKey><%= @logdna_applogs_token %></ingestKey>
        <includeStacktrace>true</includeStacktrace>
-
-       <layout>
-          <pattern>${logentriesPattern}</pattern>
-       </layout>
+       <sendMDC>true</sendMDC>
    </appender>
 
    <appender name="APPLOGS_LOGDNA" class="ch.qos.logback.classic.AsyncAppender">
