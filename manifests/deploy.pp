@@ -80,6 +80,9 @@ class rk_tomcat::deploy (
   $logentries_analytics_token = $logentries_tokens['analytics']
   $logentries_applogs_token = $logentries_tokens['applogs']
 
+  # LogDNA
+  $logdna_applogs_token = $logdna_tokens['applogs']
+
   # Redis
   $redis_pushnotif_uri = "redis://${redis_pushnotif_host}:${redis_port}/${redis_pushnotif_db}"
   $redis_queue_uri = "redis://${redis_queue_host}:${redis_port}/${redis_queue_db}"
