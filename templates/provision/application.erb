@@ -65,12 +65,14 @@ $LOGGER "Deploying application build $APPLICATION_VERSION (promoted $PROMOTED_VE
 /usr/share/tomcat7/bin/deployBuild.sh $PROMOTED_VERSION
 
 GOSS=$(which goss)
-if [ -n "$GOSS" ]; then
+GOSSFILE='./goss.json'
+if [[ -x "$GOSS" && -r "$GOSSFILE" ]]; then
+  GOSS_CMD="$GOSS --gossfile $GOSSFILE"
   $LOGGER "Testing configuration with Goss..."
   GOSS_OUT=/root/goss.out
   cd /root
   echo "### BEGIN GOSS - $(date)" > $GOSS_OUT
-  $GOSS render | $GOSS validate >> $GOSS_OUT
+  $GOSS_CMD render | $GOSS_CMD validate >> $GOSS_OUT
   echo "### END GOSS - $(date)" >> $GOSS_OUT
 
   if [ -r "$GOSS_OUT" ]; then
