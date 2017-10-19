@@ -70,6 +70,10 @@ if [[ -x "$GOSS" && -r "$GOSSFILE" ]]; then
   GOSS_CMD="$GOSS --gossfile $GOSSFILE"
   $LOGGER "Testing configuration with Goss..."
   GOSS_OUT=/root/goss.out
+  if [ -r "$GOSS_OUT" ]; then
+    $LOGGER "Removing previous Goss output file ${GOSS_OUT}..."
+    rm -f "$GOSS_OUT"
+  fi
   cd /root
   echo "### BEGIN GOSS - $(date)" > $GOSS_OUT
   $GOSS_CMD render | $GOSS_CMD validate >> $GOSS_OUT
