@@ -34,11 +34,14 @@
 
    <property name="logPattern" value="{%thread} [%level] %logger{0} - %m {mdc.uuid=%X{mdc.uuid:-null}, user.id=%X{user.id:-null}}%n%rEx{full,${ignoredStackTrace}}" />
    <property name="filePattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %cn ${logPattern}" />
+   <property name="logdnaPattern" value="[%thread] %logger{0} -- %m%n%rEx{full,${ignoredStackTrace}}" />
    
 <%- if @tier == "staging" -%>
    <property name="logentriesPattern" value="%cn <%= @staging_instance %> ${logPattern}" />
+   <property name="logdnaEnv" value="<%= @staging_instance %>" />
 <%- else -%>
    <property name="logentriesPattern" value="%cn ${logPattern}" />
+   <property name="logdnaEnv" value="prod" />
 <%- end -%>
 
    <!--********************************************************************************************-->
@@ -170,9 +173,13 @@
 <%- end -%>
 
        <appName>${appName}</appName>
+       <env>${logdnaEnv}</env>
        <ingestKey><%= @logdna_applogs_token %></ingestKey>
        <includeStacktrace>true</includeStacktrace>
        <sendMDC>true</sendMDC>
+       <layout>
+          <pattern>${logdnaPattern}</pattern>
+       </layout>
    </appender>
 
    <appender name="APPLOGS_LOGDNA" class="ch.qos.logback.classic.AsyncAppender">
