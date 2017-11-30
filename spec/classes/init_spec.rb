@@ -18,7 +18,7 @@ end
 
 describe 'rk_tomcat', :type => :class do
   context 'with parameter mode set to "provision"' do
-    let(:facts) { {:osfamily => 'Amazon', :operatingsystem => 'Amazon', :architecture => 'x86_64' } }
+    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :architecture => 'x86_64' } }
     let (:params) do
       {
         :mode  => 'provision',
@@ -38,7 +38,7 @@ end
 
 describe 'rk_tomcat', :type => :class do
   context 'with parameter mode set to "deploy"' do
-    let(:facts) { {:osfamily => 'Amazon', :operatingsystem => 'Amazon', :architecture => 'x86_64' } }
+    let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :architecture => 'x86_64' } }
     let (:params) do
       {
         :mode  => 'deploy',
