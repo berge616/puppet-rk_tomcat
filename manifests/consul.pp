@@ -7,7 +7,7 @@ class rk_tomcat::consul (
   $version,
   ) {
   class { '::consul':
-    version  => ${version},
+    version  => "${version}",
     service_enable => true,
     service_ensure => false,
     config_hash => {
