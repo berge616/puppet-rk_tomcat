@@ -19,6 +19,9 @@ fixtures:
     consul:
        repo: "KyleAnderson/consul"
        ref: "3.2.0"
+    archive:
+       repo: "puppet/archive"
+       ref: "2.2.0"
 
   symlinks:
     rk_tomcat: "#{source_dir}"
