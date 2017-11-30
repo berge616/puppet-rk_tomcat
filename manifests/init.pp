@@ -54,6 +54,7 @@ class rk_tomcat (
   }
 
   class { 'rk_tomcat::tomcat': }
+  class { 'rk_tomcat::consul': }
 
   if ( $mode == 'deploy' ) {
     class { 'rk_tomcat::deploy':
