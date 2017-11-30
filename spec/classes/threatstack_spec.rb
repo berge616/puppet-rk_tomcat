@@ -8,7 +8,7 @@ end
 
 describe 'rk_tomcat::threatstack', :type => :class do
   context 'with parameter mode set to "deploy"' do
-    let(:facts) { {:osfamily => 'Amazon'} }
+    let(:facts) { {:osfamily => 'Amazon', :architecture => 'x86_64' } }
     let (:params) do
       {
         :deploy_key => 'd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yd3adk3yAA'
