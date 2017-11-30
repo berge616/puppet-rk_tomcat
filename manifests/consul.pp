@@ -7,14 +7,14 @@ class rk_tomcat::consul (
   $version,
   ) {
   class { '::consul':
-    version  => "${version}",
+    version  => "$version",
     service_enable => true,
     service_ensure => false,
     config_hash => {
       'data_dir'             => '/opt/consul',
-      'datacenter'           => ${datacenter},
+      'datacenter'           => "$datacenter",
       'log_level'            => 'INFO',
-      'retry_join'           => ["provider=aws", "tag_key=${tag_key}", "tag_value=true"],
+      'retry_join'           => ["provider=aws", "tag_key=$tag_key", "tag_value=true"],
       'enable_script_checks' => true,
       'ports'                => { 'dns' => 53 },
       'raft_protocol'        => '3',
