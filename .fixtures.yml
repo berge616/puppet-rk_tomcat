@@ -18,7 +18,7 @@ fixtures:
        ref: "1.5.4"
     consul:
        repo: "KyleAnderson/consul"
-       ref: "3.1.2"
+       ref: "3.2.0"
 
   symlinks:
     rk_tomcat: "#{source_dir}"
