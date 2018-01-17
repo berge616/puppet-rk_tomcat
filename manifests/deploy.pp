@@ -7,7 +7,6 @@ class rk_tomcat::deploy (
   $cloudant_host,
   $cloudant_user,
   $cloudant_password,
-  $logentries_tokens,
   $logdna_tokens,
   $newrelic_enabled,
   $redis_pushnotif_host,
@@ -76,10 +75,6 @@ class rk_tomcat::deploy (
       'maxidle'   => $values[max_conn],
     }
   }
-
-  # Logentries
-  $logentries_analytics_token = $logentries_tokens['analytics']
-  $logentries_applogs_token = $logentries_tokens['applogs']
 
   # LogDNA
   $logdna_applogs_token = $logdna_tokens['applogs']

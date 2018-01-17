@@ -37,10 +37,8 @@
    <property name="logdnaPattern" value="[%thread] %logger{0} -- %m%n%rEx{full,${ignoredStackTrace}}" />
    
 <%- if @tier == "staging" -%>
-   <property name="logentriesPattern" value="%cn <%= @staging_instance %> ${logPattern}" />
    <property name="logdnaEnv" value="<%= @staging_instance %>" />
 <%- else -%>
-   <property name="logentriesPattern" value="%cn ${logPattern}" />
    <property name="logdnaEnv" value="prod" />
 <%- end -%>
 
@@ -98,51 +96,6 @@
          <fileNamePattern>${logFileDir}/analytics-logback/engineering/${appName}_events_engineering.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
          <maxHistory>24</maxHistory>
       </rollingPolicy>
-   </appender>
-
-   <appender name="ANALYTICS_LOGENTRIES" class="com.logentries.logback.LogentriesAppender">
-       <Debug>False</Debug>
-       <Token><%= @logentries_analytics_token %></Token>
-       <Ssl>False</Ssl>
-       <facility>USER</facility>
-       <layout>
-          <pattern><%= @log_identifier %> %cn: %msg%n</pattern>
-       </layout>
-   </appender>
-
-   <appender name="APPLOGS_LOGENTRIES" class="com.logentries.logback.LogentriesAppender">
-<%- if (@tier == "production" && ! @artifacts.keys.include?("admin")) -%>
-       <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-          <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
-             <expression>try { Class.forName("fitnesskeeper.core.logging.InternalUsersFilter"); return true;  } catch (Exception ex) { return false; }</expression>
-          </evaluator>
-          <OnMatch>NEUTRAL</OnMatch>
-          <OnMismatch>DENY</OnMismatch>
-       </filter>
-       <filter class="ch.qos.logback.classic.filter.LevelFilter">
-          <level>INFO</level>
-          <onMatch>ACCEPT</onMatch>
-          <onMismatch>NEUTRAL</onMismatch>
-       </filter>
-       <filter class="ch.qos.logback.classic.filter.LevelFilter">
-          <level>WARN</level>
-          <onMatch>ACCEPT</onMatch>
-          <onMismatch>NEUTRAL</onMismatch>
-       </filter>
-       <filter class="ch.qos.logback.classic.filter.LevelFilter">
-          <level>ERROR</level>
-          <onMatch>ACCEPT</onMatch>
-          <onMismatch>NEUTRAL</onMismatch>
-       </filter>
-       <filter class="fitnesskeeper.core.logging.InternalUsersFilter" />
-<%- end -%>
-       <Debug>False</Debug>
-       <Token><%= @logentries_applogs_token %></Token>
-       <Ssl>False</Ssl>
-       <facility>USER</facility>
-       <layout>
-          <pattern>${logentriesPattern}</pattern>
-       </layout>
    </appender>
 
    <appender name="APPLOGS_LOGDNA-HTTP" class="net._95point2.utils.LogDNAAppender">
@@ -205,7 +158,6 @@
       <appender-ref ref="${appLogAppenderRef}" />
 
 <%- if @tier != "loadtest" -%>
-      <appender-ref ref="APPLOGS_LOGENTRIES" />
       <appender-ref ref="APPLOGS_LOGDNA" />
       <appender-ref ref="ERRORS_ANALYTICS" />
 <%- end -%>
@@ -236,21 +188,10 @@
    <!-- Note that additivity is set to false here -->
    <!-- this is important because it stops analytics logs from going to appenders in the root logger -->
    <logger name="analytics" additivity="false" level="INFO">
-
 <%- if @tier != "loadtest" -%>
       <appender-ref ref="ANALYTICS_FILE" />
 <%- end -%>
-
-<%- if @tier == "staging" -%>
-      <appender-ref ref="ANALYTICS_LOGENTRIES"/>
-<%- end -%>
    </logger>
-
-<%- if @tier == "production" -%>
-   <logger name="analytics-trace" additivity="false" level="TRACE">
-      <appender-ref ref="ANALYTICS_LOGENTRIES" />
-   </logger>
-<%- end -%>
 
   <logger name="analytics-engineering" additivity="false" level="INFO">
       <appender-ref ref="ANALYTICS_ENGINEERING_FILE" />
