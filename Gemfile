@@ -14,6 +14,7 @@ gem 'librarian-puppet', '~> 2.2'
 gem 'deep_merge', '~> 1'
 gem 'aws-sdk', '~> 3'
 gem 'aws-instmd', '~> 0.1'
+gem 'process_lock', '~> 0.1'
 
 group :development, :test do
   gem 'dotenv', '~> 2.0'
