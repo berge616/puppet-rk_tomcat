@@ -15,6 +15,7 @@ class rk_tomcat::deploy (
   $redis_queue_db,
   $redis_port,
   $s3_path,
+  $save_crash_dumps,
   $stack,
   $staging_instance,
   $tomcat_svc,
@@ -62,6 +63,8 @@ class rk_tomcat::deploy (
       fail("Unable to parse staging_instance parameter '${staging_instance}'.")
     }
   }
+
+  validate_bool($save_crash_dumps)
 
   # Postgres
   $postgres = lookup('rk_tomcat::deploy::postgres', { 'value_type' => Hash })
@@ -135,6 +138,23 @@ class rk_tomcat::deploy (
   file { 'tomcat7.conf':
     path    => "${catalina_home}/conf/tomcat7.conf",
     content => template('rk_tomcat/tomcat7.conf.erb'),
+  }
+
+  # cron job to save Tomcat crash dumps
+  $ensure_crash_dump_cron = $save_crash_dumps ? {
+    true    => 'present',
+    default => 'absent',
+  }
+
+  cron { 'saveCrashDump':
+    ensure   => $ensure_crash_dump_cron,
+    command  => '/usr/local/bin/saveCrashDump.rb',
+    hour     => '*',
+    minute   => '*',
+    month    => '*',
+    monthday => '*',
+    weekday  => '*',
+    user     => 'root',
   }
 
   class { 'rk_tomcat::kinesis': }
