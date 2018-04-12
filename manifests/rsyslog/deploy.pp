@@ -31,6 +31,10 @@ class rk_tomcat::rsyslog::deploy(
     content => template('rk_tomcat/logdna-tomcat.conf.erb'),
   }
 
-  rclocal::update { 'restart_rsyslog':
-    content => '/sbin/service rsyslog restart >/dev/null 2>&1',
+  exec { 'restart_rsyslog':
+    command   => 'echo "/sbin/service rsyslog restart >/dev/null 2>&1" >> /etc/rc.d/rc.local',
+    path      => '/bin:/usr/bin:/sbin:/usr/sbin',
+    logoutput => 'on_failure',
+    unless    => 'grep rsyslog /etc/rc.d/rc.local 2>/dev/null',
+  }
 }
