@@ -1,6 +1,6 @@
 {
   "name": "fitnesskeeper/rk_tomcat",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "author": "fitnesskeeper",
   "summary": "Customize an Amazon Linux instance for Tomcat application hosting",
   "license": "Apache-2.0",
@@ -14,6 +14,7 @@
     {"name":"maestrodev-wget","version_requirement":">= 1.7.1"},
     {"name":"herculesteam-augeasproviders_sysctl","version_requirement":">= 2.0.2 < 2.2.0"},
     {"name":"threatstack-threatstack","version_requirement":">= 1.5.4"},
-    {"name":"KyleAnderson-consul","version_requirement": "3.2.0"}
+    {"name":"KyleAnderson-consul","version_requirement":"3.2.0"},
+    {"name":"ULHPC-rclocal","version_requirement":">= 0.1.6"}
   ]
 }

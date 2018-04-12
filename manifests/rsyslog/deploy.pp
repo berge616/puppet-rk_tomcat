@@ -30,4 +30,7 @@ class rk_tomcat::rsyslog::deploy(
     path    => "/etc/rsyslog.d/22-${rsyslog_logdna_tag}.conf",
     content => template('rk_tomcat/logdna-tomcat.conf.erb'),
   }
+
+  rclocal::update { 'restart_rsyslog':
+    content => '/sbin/service rsyslog restart >/dev/null 2>&1',
 }
