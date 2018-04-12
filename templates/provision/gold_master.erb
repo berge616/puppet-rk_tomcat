@@ -33,14 +33,6 @@ INSTANCE_NAME=$($AWS ec2 describe-tags --filters "Name=resource-id,Values=${INST
 # log to DataHub
 RSYSLOG_D='/etc/rsyslog.d'
 if [ -d "$RSYSLOG_D" ]; then
-  cat > "${RSYSLOG_D}/50-datahub-default.conf" <<RSYSLOG
-# log to DataHub
-#
-*.info;mail.none;authpriv.none;cron.none                @@datahub.${VPC}.vpc.rkcloud.us:10000
-RSYSLOG
-
-  service rsyslog restart
-
   LOGGER="logger -t ${INSTANCE_NAME} -p daemon.info"
 fi
 
