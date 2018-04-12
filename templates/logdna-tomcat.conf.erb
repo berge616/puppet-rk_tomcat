@@ -20,7 +20,7 @@ $InputRunFileMonitor
 # This will poll the file every 10 seconds
 $InputFilePollInterval 5
 
-$template LogDNAFormat,"<%%PRI%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [logdna@48950 key=\"<%= @applogs_token %>\" tags=\"catalina,<%= @application_tag %>\"] %msg%"
+$template LogDNAFormat,"<%%PRI%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% <%= @application_tag %> %procid% %msgid% [logdna@48950 key=\"<%= @applogs_token %>\" tags=\"catalina\"] %msg%"
 
 # Send messages to LogDNA over TCP using the template.
 local6.info @@syslog-a.logdna.com:6514;LogDNAFormat
