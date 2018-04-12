@@ -15,6 +15,6 @@
     {"name":"herculesteam-augeasproviders_sysctl","version_requirement":">= 2.0.2 < 2.2.0"},
     {"name":"threatstack-threatstack","version_requirement":">= 1.5.4"},
     {"name":"KyleAnderson-consul","version_requirement":"3.2.0"},
-    {"name":"ULHPC-rclocal","version_requirement":">= 0.1.6"}
+    {"name":"ULHPC-rclocal","version_requirement":"0.1.6"}
   ]
 }
