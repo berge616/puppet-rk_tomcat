@@ -24,6 +24,7 @@ class rk_tomcat::rsyslog(
   }
 
   file { "datahub-default":
+    ensure  => absent,
     path    => '/etc/rsyslog.d/50-datahub-default.conf',
     content => template('rk_tomcat/datahub-default.conf.erb'),
   }
