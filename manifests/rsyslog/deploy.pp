@@ -3,7 +3,7 @@
 class rk_tomcat::rsyslog::deploy(
   $catalina_home,
   $application_tag,
-  $logdna_token,
+  $logdna_tokens,
 ) {
 
   File {
@@ -15,12 +15,18 @@ class rk_tomcat::rsyslog::deploy(
 
   $rsyslog_tag = "datahub-${application_tag}"
   file { $rsyslog_tag:
+    ensure  => absent,
     path    => "/etc/rsyslog.d/55-${rsyslog_tag}.conf",
-    content => template('rk_tomcat/datahub-tomcat.conf.erb'),
   }
 
   $rsyslog_logdna_tag = "logdna-${application_tag}"
+  $applogs_token = $logdna_tokens['applogs']
+  $ensure_logdna = $applogs_token ? {
+    ''      => 'absent',
+    default => 'present',
+  }
   file { $rsyslog_logdna_tag:
+    ensure  => $ensure_logdna,
     path    => "/etc/rsyslog.d/22-${rsyslog_logdna_tag}.conf",
     content => template('rk_tomcat/logdna-tomcat.conf.erb'),
   }
