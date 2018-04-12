@@ -1,5 +1,7 @@
 # rk_tomcat::rclocal
 
-class { '::rclocal':
-  ensure => present,
+class rk_tomcat::rclocal {
+  class { '::rclocal':
+    ensure => present,
+  }
 }
