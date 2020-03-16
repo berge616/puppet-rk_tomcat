@@ -100,11 +100,15 @@
     "package": {
        "<%= @tomcat_native_pkg %>": {
             "installed": true,
-            "semver-constraint": ">=1.2.21 <1.3.0"
+            "versions": {
+                "semver-constraint": ">=1.2.21 <1.3.0"
+            }
         },
         "<%= @tomcat_pkg %>": {
             "installed": true,
-            "semver-constraint": ">=7.0.94 <7.1.0"
+            "versions": {
+                "semver-constraint": ">=7.0.94 <7.1.0"
+            }
         },
         <%- @font_pkgs.each do |font_pkg| -%>
         "<%= font_pkg %>": {
